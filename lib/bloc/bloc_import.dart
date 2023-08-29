@@ -12,3 +12,4 @@ export 'news_detail/news_detail_bloc.dart';
 export 'search/search_bloc.dart';
 export 'article/article_bloc.dart';
 export 'business_bloc/business_bloc.dart';
+export 'package:hydrated_bloc/hydrated_bloc.dart';

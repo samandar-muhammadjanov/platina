@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:platina/bloc/bloc_import.dart';
 import 'config/app_theme.dart';
 import 'presentation/pages/dashboard.dart';
+import 'package:path_provider/path_provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: await getApplicationDocumentsDirectory(),
+  );
   runApp(const MyApp());
 }
 

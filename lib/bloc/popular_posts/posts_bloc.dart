@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:platina/bloc/bloc_import.dart';
 import 'package:platina/domain/models/popular_post.dart';
 import 'package:platina/domain/repositories/respository.dart';
 

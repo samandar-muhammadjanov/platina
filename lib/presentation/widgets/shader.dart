@@ -16,7 +16,7 @@ class ShaderContainer extends StatelessWidget {
         height: height,
         width: width,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(8),
           color: kbackground,
         ),
       ),

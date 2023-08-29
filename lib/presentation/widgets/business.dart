@@ -31,10 +31,11 @@ class Business extends StatelessWidget {
                   const SizedBox(
                     width: 8,
                   ),
-                  const Text(
+                  Text(
                     "Бизнес",
                     style: TextStyle(
                       fontSize: 18,
+                      color: kprimaryColor,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -79,9 +80,9 @@ class Business extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => NewsDetailPage(
                     year: DateFormat("yyyy").format(item.publish),
-                      month: DateFormat("MM").format(item.publish),
-                      day: DateFormat("dd").format(item.publish),
-                      slug: item.slug,
+                    month: DateFormat("MM").format(item.publish),
+                    day: DateFormat("dd").format(item.publish),
+                    slug: item.slug,
                   ),
                 ),
               );

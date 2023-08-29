@@ -179,7 +179,8 @@ class Repository {
   }
 
   Future<Video> getVideo(page) async {
-    var request = http.Request('GET', Uri.parse(BASE_URL + VIDEO + "?page=$page"));
+    var request =
+        http.Request('GET', Uri.parse(BASE_URL + VIDEO + "?page=$page"));
 
     request.headers.addAll(headers);
 

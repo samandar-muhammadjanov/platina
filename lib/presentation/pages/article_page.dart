@@ -6,7 +6,9 @@ import 'package:platina/presentation/pages/news_detail.dart';
 import 'package:platina/presentation/widgets/business.dart';
 import 'package:platina/presentation/widgets/currency.dart';
 import 'package:platina/presentation/widgets/footer.dart';
+import 'package:platina/presentation/widgets/shader.dart';
 import 'package:platina/utils/colors.dart';
+import 'package:platina/utils/extantions.dart';
 
 class ArticlePage extends StatefulWidget {
   const ArticlePage({super.key});
@@ -16,99 +18,194 @@ class ArticlePage extends StatefulWidget {
 }
 
 class _ArticlePageState extends State<ArticlePage> {
-  ScrollPosition? position;
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              const Currency(),
-              const SizedBox(
-                height: 10,
-              ),
-              BlocBuilder<ArticleBloc, ArticleState>(
-                builder: (context, state) {
-                  if (state is ArticleLoaded) {
-                    return Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: white,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: BlocBuilder<ArticleBloc, ArticleState>(
+        builder: (context, state) {
+          return RefreshIndicator(
+            color: kprimaryColor,
+            onRefresh: () async {
+              if (state is ArticleLoaded) {
+                context.read<ArticleBloc>().add(GetArticlesEvent());
+              }
+            },
+            child: Center(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    const Currency(),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    BlocBuilder<ArticleBloc, ArticleState>(
+                      builder: (context, state) {
+                        if (state is ArticleLoaded) {
+                          return Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: white,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                            "assets/svg/polygon.svg"),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        Text(
+                                          "Мақолалар",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: kprimaryColor,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SvgPicture.asset(
+                                        "assets/svg/Arrow_Left_XL.svg")
+                                  ],
+                                ),
+                                const Divider(
+                                  height: 20,
+                                ),
+                                buildBody(state),
+                                SizedBox(
+                                  height: state.articles.next.isEmpty ? 0 : 15,
+                                ),
+                                if (isLoading) ...{
+                                  ListView.separated(
+                                    separatorBuilder: (context, index) =>
+                                        const SizedBox(
+                                      height: 10,
+                                    ),
+                                    itemCount: 10,
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const ShaderContainer(height: 240),
+                                          const SizedBox(
+                                            height: 16,
+                                          ),
+                                          const ShaderContainer(height: 15),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          ShaderContainer(
+                                            height: 15,
+                                            width: size(context).width * 0.8,
+                                          )
+                                        ],
+                                      );
+                                    },
+                                  )
+                                },
+                                state.articles.next.isEmpty
+                                    ? const SizedBox()
+                                    : InkWell(
+                                        onTap: () async {
+                                          setState(() {
+                                            isLoading = true;
+                                          });
+
+                                          context
+                                              .read<ArticleBloc>()
+                                              .add(GetMoreArticlesEvent());
+                                          await Future.delayed(
+                                            const Duration(seconds: 3),
+                                            () {
+                                              setState(() {
+                                                isLoading = false;
+                                              });
+                                            },
+                                          );
+                                        },
+                                        child: Container(
+                                          height: 41,
+                                          alignment: Alignment.center,
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
+                                              color: kbackground),
+                                          child: Text(
+                                            "Яна юклаш",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: kprimaryColor),
+                                          ),
+                                        ),
+                                      )
+                              ],
+                            ),
+                          );
+                        } else {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  SvgPicture.asset("assets/svg/polygon.svg"),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  const Text(
-                                    "Мақолалар",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ],
+                              const SizedBox(
+                                height: 20,
                               ),
-                              SvgPicture.asset("assets/svg/Arrow_Left_XL.svg")
+                              const ShaderContainer(height: 240),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              const ShaderContainer(height: 15),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              ShaderContainer(
+                                height: 15,
+                                width: size(context).width * 0.3,
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              const ShaderContainer(height: 240),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              const ShaderContainer(height: 15),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              ShaderContainer(
+                                height: 15,
+                                width: size(context).width * 0.3,
+                              ),
                             ],
-                          ),
-                          const Divider(
-                            height: 20,
-                          ),
-                          buildBody(state),
-                          SizedBox(
-                            height: state.articles.next.isEmpty ? 0 : 15,
-                          ),
-                          state.articles.next.isEmpty
-                              ? const SizedBox()
-                              : InkWell(
-                                  onTap: () {
-                                    context
-                                        .read<ArticleBloc>()
-                                        .add(GetMoreArticlesEvent());
-                                  },
-                                  child: Container(
-                                    height: 41,
-                                    alignment: Alignment.center,
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        color: kbackground),
-                                    child: Text(
-                                      "Яна юклаш",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color: kprimaryColor),
-                                    ),
-                                  ),
-                                )
-                        ],
-                      ),
-                    );
-                  } else {
-                    return const SizedBox();
-                  }
-                },
+                          );
+                        }
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Business(),
+                    const SizedBox(height: 20),
+                    const Footer()
+                  ],
+                ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Business(),
-              const SizedBox(height: 20),
-              const Footer()
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -160,7 +257,7 @@ class _ArticlePageState extends State<ArticlePage> {
             ),
           );
         },
-        separatorBuilder: (context, index) => Divider(
+        separatorBuilder: (context, index) => const Divider(
               height: 20,
             ),
         itemCount: state.articles.results.length);

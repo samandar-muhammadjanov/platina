@@ -2,18 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:platina/domain/models/search_results.dart';
-import 'package:platina/presentation/pages/article_page.dart';
-import 'package:platina/presentation/pages/home_page.dart';
-import 'package:platina/presentation/pages/lenta_page.dart';
-import 'package:platina/presentation/pages/popular_page.dart';
-import 'package:platina/presentation/pages/video-page.dart';
-import 'package:platina/presentation/widgets/category.dart';
-import 'package:platina/presentation/widgets/drawer.dart';
-import 'package:platina/presentation/widgets/search.dart';
-import 'package:platina/presentation/widgets/search_result.dart';
-import 'package:platina/utils/colors.dart';
-import '../../domain/repositories/respository.dart';
+import '/domain/models/search_results.dart';
+import '/presentation/pages/article_page.dart';
+import '/presentation/pages/home_page.dart';
+import '/presentation/pages/lenta_page.dart';
+import '/presentation/pages/popular_page.dart';
+import '/presentation/pages/video-page.dart';
+import '/presentation/widgets/category.dart';
+import '/presentation/widgets/drawer.dart';
+import '/presentation/widgets/search.dart';
+import '/presentation/widgets/search_result.dart';
+import '/utils/colors.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -61,13 +60,6 @@ class _DashboardState extends State<Dashboard> {
       this.query = query;
       this.result = result;
     });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Repository().getArticles("2");
   }
 
   List pages = [

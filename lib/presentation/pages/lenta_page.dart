@@ -6,12 +6,19 @@ import 'package:platina/presentation/pages/news_detail.dart';
 import 'package:platina/presentation/widgets/business.dart';
 import 'package:platina/presentation/widgets/currency.dart';
 import 'package:platina/presentation/widgets/footer.dart';
+import 'package:platina/presentation/widgets/shader.dart';
 import 'package:platina/utils/colors.dart';
 import 'package:platina/utils/extantions.dart';
 
-class LentaPage extends StatelessWidget {
+class LentaPage extends StatefulWidget {
   const LentaPage({super.key});
 
+  @override
+  State<LentaPage> createState() => _LentaPageState();
+}
+
+class _LentaPageState extends State<LentaPage> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     ScrollController controller = ScrollController();
@@ -46,9 +53,10 @@ class LentaPage extends StatelessWidget {
                                   const SizedBox(
                                     width: 8,
                                   ),
-                                  const Text(
+                                  Text(
                                     "Сўнгги янгиликлар",
                                     style: TextStyle(
+                                      color: kprimaryColor,
                                       fontSize: 18,
                                       fontWeight: FontWeight.w700,
                                     ),
@@ -139,13 +147,71 @@ class LentaPage extends StatelessWidget {
                           SizedBox(
                             height: state.posts.next.isEmpty ? 0 : 15,
                           ),
+                          if (isLoading) ...{
+                            ListView.separated(
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
+                                height: 10,
+                              ),
+                              itemCount: 10,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ShaderContainer(
+                                          height: 15,
+                                          width: size(context).width * 0.4,
+                                        ),
+                                        const SizedBox(height: 5),
+                                        ShaderContainer(
+                                          height: 15,
+                                          width: size(context).width * 0.5,
+                                        ),
+                                        const SizedBox(height: 5),
+                                        ShaderContainer(
+                                          height: 15,
+                                          width: size(context).width * 0.3,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      width: 15,
+                                    ),
+                                    ShaderContainer(
+                                      height: 86,
+                                      width: size(context).width * 0.33,
+                                    ),
+                                  ],
+                                );
+                              },
+                            )
+                          },
                           state.posts.next.isEmpty
                               ? const SizedBox()
                               : InkWell(
-                                  onTap: () {
+                                  onTap: () async {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+
                                     context
                                         .read<MainPostBloc>()
                                         .add(GetMorePosts());
+                                    await Future.delayed(
+                                      const Duration(seconds: 3),
+                                      () {
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+                                      },
+                                    );
                                   },
                                   child: Container(
                                     height: 41,

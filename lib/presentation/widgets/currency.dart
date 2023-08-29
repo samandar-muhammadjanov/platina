@@ -43,33 +43,10 @@ class _CurrencyState extends State<Currency> {
                   } else {
                     return Padding(
                       padding: const EdgeInsets.only(top: 16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Shimmer.fromColors(
-                            baseColor: Colors.grey[300]!,
-                            highlightColor: Colors.grey[100]!,
-                            child:
-                                item("assets/svg/USD.svg", "USD", "00000", "0"),
-                          ),
-                          Shimmer.fromColors(
-                            baseColor: Colors.grey[300]!,
-                            highlightColor: Colors.grey[100]!,
-                            child: Row(
-                              children: [
-                                Image.network(
-                                    "https://openweathermap.org/img/wn/01n.png"),
-                                const Text(
-                                  "+0 °C",
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: item("assets/svg/USD.svg", "USD", "00000", "0"),
                       ),
                     );
                   }
@@ -106,7 +83,25 @@ class _CurrencyState extends State<Currency> {
                         ),
                       );
                     } else {
-                      return const SizedBox();
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          child: Row(
+                            children: [
+                              SvgPicture.asset("assets/svg/sun.svg"),
+                              const Text(
+                                "+0 °C",
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
                     }
                   },
                 ),

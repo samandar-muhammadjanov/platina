@@ -25,7 +25,6 @@ class MainPostBloc extends Bloc<MainPostEvent, MainPostState> {
     on<GetMorePosts>((event, emit) async {
       try {
         page++;
-
         final postsModel = await Repository().getPosts(page);
         posts.first.next = postsModel.next;
         posts.first.previous = postsModel.previous;

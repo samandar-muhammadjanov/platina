@@ -48,9 +48,10 @@ class StatePurchases extends StatelessWidget {
                   const SizedBox(
                     width: 8,
                   ),
-                  const Text(
+                  Text(
                     "Давлат харидлари",
                     style: TextStyle(
+                      color: kprimaryColor,
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                     ),
