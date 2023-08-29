@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthorsBloc()..add(GetAuthorsPosts()),
         ),
         BlocProvider(
-          create: (context) => MainPostBloc()..add(GetMainPosts("1")),
+          create: (context) => MainPostBloc()..add(GetMainPosts()),
         ),
         BlocProvider(
           create: (context) => BusinessBloc()..add(GetBussinessPosts()),
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => SearchBloc(),
-        )
+        ),
       ],
       child: MaterialApp(
         title: 'Platina',

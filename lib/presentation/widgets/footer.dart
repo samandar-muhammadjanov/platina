@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:platina/utils/colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Footer extends StatelessWidget {
   const Footer({
@@ -74,11 +74,19 @@ class Footer extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Container(
-                    height: 35,
-                    width: 35,
-                    alignment: Alignment.center,
-                    child: SvgPicture.asset("assets/svg/telegram.svg"),
+                  InkWell(
+                    onTap: () async {
+                      if (!await launchUrl(
+                          Uri.parse("https://t.me/platinauzb"))) {
+                        throw Exception('Could not launch');
+                      }
+                    },
+                    child: Container(
+                      height: 35,
+                      width: 35,
+                      alignment: Alignment.center,
+                      child: SvgPicture.asset("assets/svg/telegram.svg"),
+                    ),
                   ),
                   Container(
                     height: 35,

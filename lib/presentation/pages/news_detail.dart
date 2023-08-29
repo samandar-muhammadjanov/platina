@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:platina/domain/models/search_results.dart';
 import 'package:platina/presentation/pages/article_page.dart';
 import 'package:platina/presentation/pages/home_page.dart';
 import 'package:platina/presentation/pages/lenta_page.dart';
@@ -11,6 +12,8 @@ import 'package:platina/presentation/widgets/business.dart';
 import 'package:platina/presentation/widgets/currency.dart';
 import 'package:platina/presentation/widgets/drawer.dart';
 import 'package:platina/presentation/widgets/footer.dart';
+import 'package:platina/presentation/widgets/search.dart';
+import 'package:platina/presentation/widgets/search_result.dart';
 import 'package:platina/utils/colors.dart';
 
 class NewsDetailPage extends StatefulWidget {
@@ -50,16 +53,24 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
     });
   }
 
+// Qidirish tizimidan kelgan ma'lumotni body da chiqarish uchun funktsiya
+
   bool isSearchResultClicked = false;
-  void _showSearchResult(bool isSearchResultClicked) {
+  String query = '';
+  SearchResult? result;
+  void _showSearchResult(
+      bool isSearchResultClicked, String query, SearchResult result) {
     setState(() {
       this.isSearchResultClicked = isSearchResultClicked;
+      this.query = query;
+      this.result = result;
     });
   }
 
   bool isMenuClicked = false;
   int currentIndex = 0;
   bool isIconsClicked = false;
+
   @override
   Widget build(BuildContext context) {
     List pages = [
@@ -97,52 +108,59 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                     isDrawerOpen: _isDrawerOpen,
                     toogleDrawer: _toggleDrawer,
                     menu: _updateMenu),
-                // AppSearch(
-                //   isSearch: _isSearchOpen,
-                //   toogleSearch: _toogleSearch,
-                //   searchResult: _showSearchResult,
-                // )
+                AppSearch(
+                  isSearch: _isSearchOpen,
+                  toogleSearch: _toogleSearch,
+                  searchResult: _showSearchResult,
+                )
               ],
             )
           : Stack(
               children: [
-                if (!isMenuClicked)
-                  SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      children: [
-                        const Currency(),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        PostRedirect(
-                          year: widget.year,
-                          month: widget.month,
-                          day: widget.day,
-                          slug: widget.slug,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const Business(),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const Footer()
-                      ],
-                    ),
+                if (!isSearchResultClicked) ...{
+                  if (!isMenuClicked)
+                    SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Column(
+                        children: [
+                          const Currency(),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          PostRedirect(
+                            year: widget.year,
+                            month: widget.month,
+                            day: widget.day,
+                            slug: widget.slug,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Business(),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Footer()
+                        ],
+                      ),
+                    )
+                  else
+                    const Categories()
+                } else ...{
+                  SearchResultWidget(
+                    query: query,
+                    result: result!,
                   )
-                else
-                  const Categories(),
+                },
                 AppDrawer(
                     isDrawerOpen: _isDrawerOpen,
                     toogleDrawer: _toggleDrawer,
                     menu: _updateMenu),
-                // AppSearch(
-                //   isSearch: _isSearchOpen,
-                //   toogleSearch: _toogleSearch,
-                //   searchResult: _showSearchResult,
-                // )
+                AppSearch(
+                  isSearch: _isSearchOpen,
+                  toogleSearch: _toogleSearch,
+                  searchResult: _showSearchResult,
+                )
               ],
             ),
       bottomNavigationBar: _isDrawerOpen || _isSearchOpen

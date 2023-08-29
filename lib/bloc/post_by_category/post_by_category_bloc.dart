@@ -11,7 +11,6 @@ class PostByCategoryBloc
   PostByCategoryBloc() : super(PostByCategoryInitial()) {
     on<GetPostsByCategoryEvent>((event, emit) async {
       try {
-        emit(PostByCategoryLoading());
         final post = await Repository().getPostsByCategory(event.category);
         emit(PostByCategoryLoaded(post));
       } catch (e) {

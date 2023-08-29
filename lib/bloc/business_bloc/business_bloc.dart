@@ -10,7 +10,6 @@ class BusinessBloc extends Bloc<BusinessEvent, BusinessState> {
   BusinessBloc() : super(BusinessInitial()) {
     on<GetBussinessPosts>((event, emit) async {
       try {
-        emit(BusinessLoading());
         final posts = await Repository().getBusinessPosts();
         emit(BusinessLoaded(posts));
       } catch (e) {

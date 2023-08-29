@@ -8,28 +8,34 @@ part 'main_post_state.dart';
 
 class MainPostBloc extends Bloc<MainPostEvent, MainPostState> {
   MainPostBloc() : super(MainPostInitial()) {
+    List<Posts> posts = [];
     Repository _repository = Repository();
+    int page = 1;
 
     on<GetMainPosts>((event, emit) async {
       try {
-        emit(MainPostLoading());
-        final posts = await _repository.getPosts("1");
-        emit(MainPostLoaded(posts));
+        final postsModel = await _repository.getPosts(page);
+        posts.add(postsModel);
+        emit(MainPostLoaded(posts.first));
       } catch (e) {
         emit(MainPostError(e.toString()));
       }
     });
 
-    on<GetMorePosts>((event, emit) {
+    on<GetMorePosts>((event, emit) async {
       try {
-        emit(MainPostLoading());
-        emit(LoadmorePosts(event.posts));
+        page++;
+
+        final postsModel = await Repository().getPosts(page);
+        posts.first.next = postsModel.next;
+        posts.first.previous = postsModel.previous;
+        for (var i = 0; i < postsModel.results.length; i++) {
+          posts.first.results.add(postsModel.results[i]);
+        }
+
+        emit(MainPostLoaded(posts.first));
       } catch (e) {
-        emit(
-          MainPostError(
-            e.toString(),
-          ),
-        );
+        emit(MainPostError(e.toString()));
       }
     });
   }

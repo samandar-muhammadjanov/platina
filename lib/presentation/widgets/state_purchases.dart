@@ -63,20 +63,12 @@ class StatePurchases extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: List.generate(
-              state.post.results.length * 2 - 1,
-              (index) {
-                final itemIndex = index ~/ 2;
-                final item = state.post.results[itemIndex];
+          ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final item = state.post.results[index];
                 final date = item.publish.timePassedFromNow();
-
-                if (index.isOdd) {
-                  return const Divider(
-                    height: 15,
-                  ); // Adds a divider for odd indices
-                }
                 if (index == 0) {
                   return InkWell(
                     onTap: () {
@@ -329,8 +321,11 @@ class StatePurchases extends StatelessWidget {
                   );
                 }
               },
-            ),
-          )
+              separatorBuilder: (context, index) => const Divider(
+                    height: 15,
+                  ),
+              itemCount:
+                  state.post.results.length > 5 ? 5 : state.post.results.length)
         ],
       ),
     );

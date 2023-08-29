@@ -19,8 +19,8 @@ class Video {
 
   factory Video.fromJson(Map<String, dynamic> json) => Video(
         count: json["count"],
-        next: json["next"],
-        previous: json["previous"],
+        next: json["next"] ?? "",
+        previous: json["previous"] ?? "",
         results:
             List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
       );

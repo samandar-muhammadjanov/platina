@@ -8,7 +8,7 @@ class Articles {
   int count;
   String next;
   dynamic previous;
-  List<Result> results;
+  List<ArticleResult> results;
 
   Articles({
     required this.count,
@@ -19,10 +19,10 @@ class Articles {
 
   factory Articles.fromJson(Map<String, dynamic> json) => Articles(
         count: json["count"],
-        next: json["next"],
-        previous: json["previous"],
-        results:
-            List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
+        next: json["next"] ?? "",
+        previous: json["previous"] ?? "",
+        results: List<ArticleResult>.from(
+            json["results"].map((x) => ArticleResult.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -33,7 +33,7 @@ class Articles {
       };
 }
 
-class Result {
+class ArticleResult {
   int id;
   Category category;
   String title;
@@ -50,16 +50,16 @@ class Result {
   String imageLarge;
   String imageMedium;
   String imageSmall;
-  ImageSource imageSource;
+  String imageSource;
   String imageName;
   List<Gallery> gallery;
   String shortUrl;
   String youtubeLink;
   List<String> tags;
   dynamic expiredAt;
-  Language language;
+  String language;
 
-  Result({
+  ArticleResult({
     required this.id,
     required this.category,
     required this.title,
@@ -86,7 +86,7 @@ class Result {
     required this.language,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory ArticleResult.fromJson(Map<String, dynamic> json) => ArticleResult(
         id: json["id"],
         category: Category.fromJson(json["category"]),
         title: json["title"],
@@ -103,7 +103,7 @@ class Result {
         imageLarge: json["image_large"],
         imageMedium: json["image_medium"],
         imageSmall: json["image_small"],
-        imageSource: imageSourceValues.map[json["image_source"]]!,
+        imageSource: json["image_source"] ?? "",
         imageName: json["image_name"],
         gallery:
             List<Gallery>.from(json["gallery"].map((x) => Gallery.fromJson(x))),
@@ -111,7 +111,7 @@ class Result {
         youtubeLink: json["youtube_link"] ?? "",
         tags: List<String>.from(json["tags"].map((x) => x)),
         expiredAt: json["expired_at"],
-        language: languageValues.map[json["language"]]!,
+        language: json["language"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -131,22 +131,22 @@ class Result {
         "image_large": imageLarge,
         "image_medium": imageMedium,
         "image_small": imageSmall,
-        "image_source": imageSourceValues.reverse[imageSource],
+        "image_source": imageSource,
         "image_name": imageName,
         "gallery": List<dynamic>.from(gallery.map((x) => x.toJson())),
         "short_url": shortUrl,
         "youtube_link": youtubeLink,
         "tags": List<dynamic>.from(tags.map((x) => x)),
         "expired_at": expiredAt,
-        "language": languageValues.reverse[language],
+        "language": language,
       };
 }
 
 class Category {
   int id;
-  Name name;
-  Slug slug;
-  Color color;
+  String name;
+  String slug;
+  String color;
 
   Category({
     required this.id,
@@ -157,30 +157,18 @@ class Category {
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"],
-        name: nameValues.map[json["name"]]!,
-        slug: slugValues.map[json["slug"]]!,
-        color: colorValues.map[json["color"]]!,
+        name: json["name"],
+        slug: json["slug"],
+        color: json["color"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "name": nameValues.reverse[name],
-        "slug": slugValues.reverse[slug],
-        "color": colorValues.reverse[color],
+        "name": name,
+        "slug": slug,
+        "color": color,
       };
 }
-
-enum Color { THE_018_AD8 }
-
-final colorValues = EnumValues({"#018AD8": Color.THE_018_AD8});
-
-enum Name { EMPTY }
-
-final nameValues = EnumValues({"Мақола": Name.EMPTY});
-
-enum Slug { MAQOLA }
-
-final slugValues = EnumValues({"maqola": Slug.MAQOLA});
 
 class Gallery {
   String image;
@@ -196,25 +184,4 @@ class Gallery {
   Map<String, dynamic> toJson() => {
         "image": image,
       };
-}
-
-enum ImageSource { EMPTY, PLATINA_UZ }
-
-final imageSourceValues =
-    EnumValues({"": ImageSource.EMPTY, "platina.uz": ImageSource.PLATINA_UZ});
-
-enum Language { UZ }
-
-final languageValues = EnumValues({"uz": Language.UZ});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

@@ -4,3 +4,5 @@ part of 'article_bloc.dart';
 sealed class ArticleEvent {}
 
 class GetArticlesEvent extends ArticleEvent {}
+
+class GetMoreArticlesEvent extends ArticleEvent {}

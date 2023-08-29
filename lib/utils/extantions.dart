@@ -37,6 +37,16 @@ extension DateTimeExtensions on DateTime {
   }
 }
 
+extension SpecialSymbolsExtension on String {
+  String replaceSpecialSymbols() {
+    String output = this;
+    output = output.replaceAll('&quot;', '"');
+    output = output.replaceAll('&nbsp;', '\u00A0');
+    // Add more replacements as needed
+    return output;
+  }
+}
+
 extension HexColor on String {
   Color toColor() {
     // Remove the '#' symbol if present

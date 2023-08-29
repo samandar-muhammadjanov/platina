@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:platina/bloc/bloc_import.dart';
 import 'package:platina/utils/colors.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Currency extends StatefulWidget {
   const Currency({
@@ -37,8 +38,40 @@ class _CurrencyState extends State<Currency> {
                         .firstWhere((element) => element.ccy == "USD");
                     return item("assets/svg/USD.svg", currency.ccy,
                         currency.rate, currency.diff);
-                  } else {
+                  } else if (state is CurrencyError) {
                     return const SizedBox();
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[100]!,
+                            child:
+                                item("assets/svg/USD.svg", "USD", "00000", "0"),
+                          ),
+                          Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[100]!,
+                            child: Row(
+                              children: [
+                                Image.network(
+                                    "https://openweathermap.org/img/wn/01n.png"),
+                                const Text(
+                                  "+0 °C",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    );
                   }
                 },
               )),

@@ -17,7 +17,7 @@ class Currency {
   String nominal;
   String rate;
   String diff;
-  Date date;
+  String date;
 
   Currency({
     required this.id,
@@ -44,7 +44,7 @@ class Currency {
         nominal: json["Nominal"],
         rate: json["Rate"],
         diff: json["Diff"],
-        date: dateValues.map[json["Date"]]!,
+        date: json["Date"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -58,13 +58,10 @@ class Currency {
         "Nominal": nominal,
         "Rate": rate,
         "Diff": diff,
-        "Date": dateValues.reverse[date],
+        "Date": date,
       };
 }
 
-enum Date { THE_28082023 }
-
-final dateValues = EnumValues({"28.08.2023": Date.THE_28082023});
 
 class EnumValues<T> {
   Map<String, T> map;

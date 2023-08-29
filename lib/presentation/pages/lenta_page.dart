@@ -14,6 +14,7 @@ class LentaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScrollController controller = ScrollController();
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -60,101 +61,107 @@ class LentaPage extends StatelessWidget {
                           const Divider(
                             height: 20,
                           ),
-                          Column(
-                            children: List.generate(
-                                state.posts.results.isEmpty
-                                    ? state.posts.results.length
-                                    : state.posts.results.length * 2 - 1,
-                                (index) {
-                              final itemIndex = index ~/ 2;
-                              final item = state.posts.results[itemIndex];
-                              final date = item.publish.timePassedFromNow();
-                              if (index.isOdd) {
-                                return const Divider(
-                                  height: 15,
-                                ); // Adds a divider for odd indices
-                              }
-                              return InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => NewsDetailPage(
-                                        year: DateFormat("yyyy")
-                                            .format(item.publish),
-                                        month: DateFormat("MM")
-                                            .format(item.publish),
-                                        day: DateFormat("dd")
-                                            .format(item.publish),
-                                        slug: item.slug,
+                          ListView.separated(
+                              controller: controller,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                final item = state.posts.results[index];
+                                final date = item.publish.timePassedFromNow();
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => NewsDetailPage(
+                                          year: DateFormat("yyyy")
+                                              .format(item.publish),
+                                          month: DateFormat("MM")
+                                              .format(item.publish),
+                                          day: DateFormat("dd")
+                                              .format(item.publish),
+                                          slug: item.slug,
+                                        ),
                                       ),
+                                    );
+                                  },
+                                  child: SizedBox(
+                                    height: 86,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                item.title,
+                                                maxLines: 3,
+                                                style: TextStyle(
+                                                    color: kprimaryColor,
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                              Text(
+                                                date,
+                                                style: TextStyle(
+                                                    color: kGreyTextColor,
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 15,
+                                        ),
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          child: Image.network(
+                                            "https://cp.dev.platina.uz/${item.imageSmall}",
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  );
-                                },
-                                child: SizedBox(
-                                  height: 86,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              item.title,
-                                              maxLines: 3,
-                                              style: TextStyle(
-                                                  color: kprimaryColor,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700),
-                                            ),
-                                            Text(
-                                              date,
-                                              style: TextStyle(
-                                                  color: kGreyTextColor,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w500),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 15,
-                                      ),
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: Image.network(
-                                          "https://cp.dev.platina.uz/${item.imageSmall}",
-                                        ),
-                                      ),
-                                    ],
                                   ),
-                                ),
-                              );
-                            }),
+                                );
+                              },
+                              separatorBuilder: (context, index) =>
+                                  const Divider(
+                                    height: 15,
+                                  ),
+                              itemCount: state.posts.results.length),
+                          SizedBox(
+                            height: state.posts.next.isEmpty ? 0 : 15,
                           ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            child: Container(
-                              height: 41,
-                              alignment: Alignment.center,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(6),
-                                  color: kbackground),
-                              child: Text(
-                                "Яна юклаш",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: kprimaryColor),
-                              ),
-                            ),
-                          )
+                          state.posts.next.isEmpty
+                              ? const SizedBox()
+                              : InkWell(
+                                  onTap: () {
+                                    context
+                                        .read<MainPostBloc>()
+                                        .add(GetMorePosts());
+                                  },
+                                  child: Container(
+                                    height: 41,
+                                    alignment: Alignment.center,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        color: kbackground),
+                                    child: Text(
+                                      "Яна юклаш",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: kprimaryColor),
+                                    ),
+                                  ),
+                                )
                         ],
                       ),
                     );

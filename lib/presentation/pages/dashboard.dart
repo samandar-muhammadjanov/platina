@@ -13,6 +13,7 @@ import 'package:platina/presentation/widgets/drawer.dart';
 import 'package:platina/presentation/widgets/search.dart';
 import 'package:platina/presentation/widgets/search_result.dart';
 import 'package:platina/utils/colors.dart';
+import '../../domain/repositories/respository.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -31,6 +32,7 @@ class _DashboardState extends State<Dashboard> {
       _isDrawerOpen = !_isDrawerOpen;
     });
   }
+
 // Qidirish panelini ochish uchun funktsiya
   bool _isSearchOpen = false;
   void _toogleSearch() {
@@ -59,6 +61,13 @@ class _DashboardState extends State<Dashboard> {
       this.query = query;
       this.result = result;
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Repository().getArticles("2");
   }
 
   List pages = [

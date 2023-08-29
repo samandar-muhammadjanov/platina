@@ -10,7 +10,6 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
   MenuBloc() : super(MenuInitial()) {
     on<GetMenues>((event, emit) async {
       try {
-        emit(MenuLoading());
         final categories = await Repository().getMenues();
         emit(MenuLoaded(categories));
       } catch (e) {

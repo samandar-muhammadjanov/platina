@@ -17,7 +17,9 @@ class Categories extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<PostByCategoryBloc, PostByCategoryState>(
         builder: (context, state) {
-          if (state is PostByCategoryLoaded) {
+          if (state is PostByCategoryError) {
+            return Text(state.error);
+          } else if (state is PostByCategoryLoaded) {
             return Center(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -73,88 +75,82 @@ class Categories extends StatelessWidget {
                                 const Divider(
                                   height: 20,
                                 ),
-                                Column(
-                                  children: List.generate(
-                                      state.post.results.isEmpty
-                                          ? state.post.results.length
-                                          : state.post.results.length * 2 - 1,
-                                      (index) {
-                                    final itemIndex =
-                                        index == 0 ? index : index ~/ 2;
-                                    final item = state.post.results[itemIndex];
-                                    final date =
-                                        item.publish.timePassedFromNow();
-                                    if (index.isOdd) {
-                                      return const Divider(
-                                        height: 15,
-                                      ); // Adds a divider for odd indices
-                                    }
-                                    return InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                NewsDetailPage(
-                                              year: DateFormat("yyyy")
-                                                  .format(item.publish),
-                                              month: DateFormat("M")
-                                                  .format(item.publish),
-                                              day: DateFormat("ddd")
-                                                  .format(item.publish),
-                                              slug: item.slug,
+                                ListView.separated(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      final item = state.post.results[index];
+                                      return InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NewsDetailPage(
+                                                year: DateFormat("yyyy")
+                                                    .format(item.publish),
+                                                month: DateFormat("M")
+                                                    .format(item.publish),
+                                                day: DateFormat("ddd")
+                                                    .format(item.publish),
+                                                slug: item.slug,
+                                              ),
                                             ),
+                                          );
+                                        },
+                                        child: SizedBox(
+                                          height: 86,
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      item.title,
+                                                      maxLines: 3,
+                                                      style: TextStyle(
+                                                          color: kprimaryColor,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w700),
+                                                    ),
+                                                    Text(
+                                                      item.publish
+                                                          .timePassedFromNow(),
+                                                      style: TextStyle(
+                                                          color: kGreyTextColor,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 15,
+                                              ),
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                child: Image.network(
+                                                  "https://cp.dev.platina.uz/${item.imageSmall}",
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        );
-                                      },
-                                      child: SizedBox(
-                                        height: 86,
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    item.title,
-                                                    maxLines: 3,
-                                                    style: TextStyle(
-                                                        color: kprimaryColor,
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w700),
-                                                  ),
-                                                  Text(
-                                                    date,
-                                                    style: TextStyle(
-                                                        color: kGreyTextColor,
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 15,
-                                            ),
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              child: Image.network(
-                                                "https://cp.dev.platina.uz/${item.imageSmall}",
-                                              ),
-                                            ),
-                                          ],
                                         ),
-                                      ),
-                                    );
-                                  }),
-                                ),
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) =>
+                                        Divider(
+                                          height: 15,
+                                        ),
+                                    itemCount: state.post.results.length),
                                 const SizedBox(
                                   height: 15,
                                 ),

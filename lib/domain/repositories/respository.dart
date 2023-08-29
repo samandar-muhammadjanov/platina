@@ -21,14 +21,14 @@ class Repository {
   var headers = {
     'X-PLATINA-API-KEY': 'QdO5hA3D.iSevNc03mulrumyLiPqlcM03M9clZdDQ'
   };
-  Future<PopularPosts> getPopularPosts() async {
-    var request = http.Request('GET', Uri.parse(BASE_URL + POPULAR_POSTS));
+  Future<PopularPosts> getPopularPosts(page) async {
+    var request =
+        http.Request('GET', Uri.parse(BASE_URL + POPULAR_POSTS + "?page$page"));
 
     request.headers.addAll(headers);
 
     http.Response response =
         await http.Response.fromStream(await request.send());
-    print(response.body);
     if (response.statusCode == 200) {
       PopularPosts posts =
           popularPostsFromJson(utf8.decode(response.bodyBytes));
@@ -101,8 +101,7 @@ class Repository {
         await http.Response.fromStream(await request.send());
 
     if (response.statusCode == 200) {
-      List<Menues> categories =
-          menuesFromJson(utf8.decode(response.bodyBytes));
+      List<Menues> categories = menuesFromJson(utf8.decode(response.bodyBytes));
       return categories;
     } else {
       return throw Exception(response.body);
@@ -125,7 +124,7 @@ class Repository {
     var request = http.Request(
       'GET',
       Uri.parse(
-        BASE_URL + POST_BY_CATEGORY + CATEGORY,
+        BASE_URL + POST_BY_CATEGORY + "/" + CATEGORY,
       ),
     );
 
@@ -162,24 +161,25 @@ class Repository {
     }
   }
 
-  Future<Articles> getArticles() async {
-    var request = http.Request('GET', Uri.parse(BASE_URL + ARTICLES));
+  Future<Articles> getArticles(page) async {
+    var request =
+        http.Request('GET', Uri.parse(BASE_URL + ARTICLES + "?page=$page"));
 
     request.headers.addAll(headers);
 
     http.Response response =
         await http.Response.fromStream(await request.send());
-
     if (response.statusCode == 200) {
       Articles articles = articlesFromJson(utf8.decode(response.bodyBytes));
+
       return articles;
     } else {
       return throw Exception(response.body);
     }
   }
 
-  Future<Video> getVideo() async {
-    var request = http.Request('GET', Uri.parse(BASE_URL + VIDEO));
+  Future<Video> getVideo(page) async {
+    var request = http.Request('GET', Uri.parse(BASE_URL + VIDEO + "?page=$page"));
 
     request.headers.addAll(headers);
 
@@ -220,8 +220,7 @@ class Repository {
 
     http.Response response =
         await http.Response.fromStream(await request.send());
-    // final body = jsonDecode(utf8.decode(response.bodyBytes));
-    print(response.body);
+
     if (response.statusCode == 200) {
       SearchResult searchResult =
           searchResultFromJson(utf8.decode(response.bodyBytes));

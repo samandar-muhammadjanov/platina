@@ -10,7 +10,6 @@ class AuthorsBloc extends Bloc<AuthorsEvent, AuthorsState> {
   AuthorsBloc() : super(AuthorsInitial()) {
     on<GetAuthorsPosts>((event, emit) async {
       try {
-        emit(AuthorsLoading());
         final posts = await Repository().getAuthorsOfferedPosts();
         emit(AuthorsLoaded(posts));
       } catch (e) {

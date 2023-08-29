@@ -35,7 +35,7 @@ class _AppDrawerState extends State<AppDrawer> {
     'Мақола',
   ];
   List languages = ["Ўзб", "O’zb", "Рус", 'Eng'];
-  int currentMenu = 0;
+  int currentMenu = 1000;
   int currentLanguage = 0;
   @override
   Widget build(BuildContext context) {
@@ -77,24 +77,16 @@ class _AppDrawerState extends State<AppDrawer> {
                             } else if (state is MenuLoaded) {
                               return buildCategories(state);
                             } else {
-                              return ListView(
-                                shrinkWrap: true,
-                                children: const [
-                                  ShaderContainer(height: 44),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  ShaderContainer(height: 44),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  ShaderContainer(height: 44),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  ShaderContainer(height: 44),
-                                ],
-                              );
+                              return ListView.separated(
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    return const ShaderContainer(height: 44);
+                                  },
+                                  separatorBuilder: (context, index) =>
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                  itemCount: 7);
                             }
                           },
                         ),

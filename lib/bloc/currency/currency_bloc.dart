@@ -10,7 +10,6 @@ class CurrencyBloc extends Bloc<CurrencyEvent, CurrencyState> {
   CurrencyBloc() : super(CurrencyInitial()) {
     on<GetCurrencyEvent>((event, emit) async {
       try {
-        emit(Currencyloading());
         final currency = await Repository().getCurrency();
         emit(CurrencyLoaded(currency));
       } catch (e) {

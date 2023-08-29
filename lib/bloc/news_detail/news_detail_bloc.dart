@@ -10,7 +10,6 @@ class NewsDetailBloc extends Bloc<NewsDetailEvent, NewsDetailState> {
   NewsDetailBloc() : super(NewsDetailInitial()) {
     on<GetNewsDetail>((event, emit) async {
       try {
-        emit(NewsDetailLoading());
         final post = await Repository()
             .getNewsDetail(event.year, event.month, event.day, event.slug);
         emit(NewsDetailLoaded(post));

@@ -75,7 +75,10 @@ class _PostRedirectState extends State<PostRedirect> {
                         height: 10,
                       ),
                       Text(
-                        item.shortDescription.removeHtmlTags(),
+                        item.shortDescription
+                            .removeHtmlTags()
+                            .replaceSpecialSymbols(),
+                        maxLines: 2,
                         style: TextStyle(
                           color: kGreyTextColor,
                         ),
