@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:platina/bloc/bloc_import.dart';
 import 'package:platina/domain/models/popular_post.dart';
@@ -14,7 +15,8 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
     Repository _repository = Repository();
     on<GetPopularPosts>((event, emit) async {
       try {
-        final postsModel = await _repository.getPopularPosts(page);
+        final postsModel =
+            await _repository.getPopularPosts(page);
         posts.add(postsModel);
         emit(PopularPostsLoaded(posts.first));
       } catch (e) {
@@ -24,7 +26,8 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
     on<GetMorePopularPosts>((event, emit) async {
       try {
         page++;
-        final postsModel = await _repository.getPopularPosts(page);
+        final postsModel =
+            await _repository.getPopularPosts(page);
         posts.first.next = postsModel.next;
         posts.first.previous = postsModel.previous;
         for (var i = 0; i < postsModel.results.length; i++) {

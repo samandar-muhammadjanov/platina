@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:platina/bloc/bloc_import.dart';
@@ -38,7 +39,7 @@ class _FilterState extends State<Filter> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Кенгайтирилган қидирув",
+                    "advancedSearch".tr(),
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
@@ -141,7 +142,7 @@ class _FilterState extends State<Filter> {
                         )
                       : const SizedBox(),
                 ),
-                title: const Text("Янгиликлар"),
+                title: Text("news".tr()),
               ),
               ListTile(
                 onTap: () {
@@ -171,7 +172,7 @@ class _FilterState extends State<Filter> {
                         )
                       : const SizedBox(),
                 ),
-                title: const Text("Мақолалар"),
+                title: Text("articles".tr()),
               ),
               const Divider(
                 height: 10,
@@ -181,7 +182,7 @@ class _FilterState extends State<Filter> {
                 height: 10,
               ),
               Text(
-                "Чоп этилган санаси",
+                "publishedDate".tr(),
                 style: TextStyle(
                     color: kGreyTextColor, fontWeight: FontWeight.w500),
               ),
@@ -199,7 +200,7 @@ class _FilterState extends State<Filter> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
-                                  "дан",
+                                  "from".tr(),
                                   style: TextStyle(
                                     fontSize: 17,
                                     color: kGreyTextColor,
@@ -234,7 +235,7 @@ class _FilterState extends State<Filter> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
-                                  "гача",
+                                  "until".tr(),
                                   style: TextStyle(
                                     fontSize: 17,
                                     color: kGreyTextColor,

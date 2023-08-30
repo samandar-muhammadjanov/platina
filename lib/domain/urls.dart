@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names
-
 const BASE_URL = "https://cp.dev.platina.uz/uz/api";
 const POPULAR_POSTS = "/popular-posts";
 const AUTHORS_OFFERED = "/posts/author-offered";

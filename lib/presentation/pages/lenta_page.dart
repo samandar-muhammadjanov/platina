@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -54,7 +55,7 @@ class _LentaPageState extends State<LentaPage> {
                                     width: 8,
                                   ),
                                   Text(
-                                    "Сўнгги янгиликлар",
+                                    "latestNews".tr(),
                                     style: TextStyle(
                                       color: kprimaryColor,
                                       fontSize: 18,
@@ -221,7 +222,7 @@ class _LentaPageState extends State<LentaPage> {
                                         borderRadius: BorderRadius.circular(6),
                                         color: kbackground),
                                     child: Text(
-                                      "Яна юклаш",
+                                      "loadMore".tr(),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           color: kprimaryColor),

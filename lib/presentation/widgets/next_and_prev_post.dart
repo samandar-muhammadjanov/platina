@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -79,7 +80,7 @@ class NextAndPrevPosts extends StatelessWidget {
                                       width: 5,
                                     ),
                                     Text(
-                                      "Аввалги янгилик",
+                                      "prevNews".tr(),
                                       style: TextStyle(
                                         color: kprimaryColor,
                                         fontSize: 12,
@@ -156,7 +157,7 @@ class NextAndPrevPosts extends StatelessWidget {
                           child: Row(
                             children: [
                               Text(
-                                "Кейинги янгилик",
+                                "nextNews".tr(),
                                 style: TextStyle(
                                   color: kprimaryColor,
                                   fontSize: 12,

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -62,7 +63,7 @@ class _AppSearchState extends State<AppSearch> {
                         contentPadding: const EdgeInsets.all(12),
                         filled: true,
                         fillColor: white,
-                        hintText: "Сайт бўйлаб қидирув...",
+                        hintText: "searchHint".tr(),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: BorderSide(
@@ -136,7 +137,7 @@ class _AppSearchState extends State<AppSearch> {
                               leading: SvgPicture.asset(
                                   "assets/svg/search_result.svg"),
                               title: Text(
-                                "Қидирув натижаларига ўтиш",
+                                "goSearchResults".tr(),
                                 style: TextStyle(
                                     color: kprimaryColor,
                                     fontWeight: FontWeight.w500),

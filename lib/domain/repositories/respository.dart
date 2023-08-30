@@ -2,6 +2,8 @@
 
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:platina/domain/models/articles.dart';
 import 'package:platina/domain/models/authors_offered.dart';
@@ -21,6 +23,13 @@ class Repository {
   var headers = {
     'X-PLATINA-API-KEY': 'QdO5hA3D.iSevNc03mulrumyLiPqlcM03M9clZdDQ'
   };
+
+  String baseUrl(BuildContext context) {
+    return context.locale == const Locale("uz", "UZ")
+        ? "https://cp.dev.platina.uz/uz-latin/api"
+        : "https://cp.dev.platina.uz/uz/api";
+  }
+
   Future<PopularPosts> getPopularPosts(page) async {
     var request =
         http.Request('GET', Uri.parse(BASE_URL + POPULAR_POSTS + "?page$page"));

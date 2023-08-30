@@ -18,9 +18,6 @@ class HomePage extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           children: const [
             Currency(),
-            SizedBox(
-              height: 10,
-            ),
             ImportantNews(),
             SizedBox(height: 20),
             EditorsChoice(),

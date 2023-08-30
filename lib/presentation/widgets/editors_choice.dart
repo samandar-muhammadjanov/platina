@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -29,10 +30,11 @@ class EditorsChoice extends StatelessWidget {
                   const SizedBox(
                     width: 8,
                   ),
-                  const Text(
-                    "Муҳаррир танлови",
+                  Text(
+                    "authorsOffered".tr(),
                     style: TextStyle(
                       fontSize: 18,
+                      color: kprimaryColor,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -85,10 +87,10 @@ class EditorsChoice extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => NewsDetailPage(
-                   year: DateFormat("yyyy").format(item.publish),
-                      month: DateFormat("MM").format(item.publish),
-                      day: DateFormat("dd").format(item.publish),
-                      slug: item.slug,
+                    year: DateFormat("yyyy").format(item.publish),
+                    month: DateFormat("MM").format(item.publish),
+                    day: DateFormat("dd").format(item.publish),
+                    slug: item.slug,
                   ),
                 ),
               );

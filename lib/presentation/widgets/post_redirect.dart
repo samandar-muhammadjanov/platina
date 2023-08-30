@@ -112,35 +112,13 @@ class _PostRedirectState extends State<PostRedirect> {
                               ),
                             ],
                           ),
-                          Row(
-                            children: [
-                              Row(
-                                children: [
-                                  SvgPicture.asset("assets/svg/Eye.svg"),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    item.numberOfViews.toString(),
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                        color: kLightGreyTextColor),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                width: 14,
-                              ),
-                              InkWell(
-                                  onTap: () {
-                                    Share.share(
-                                        "https://platina.uz/${widget.year}/${widget.month}/${widget.day}/${widget.slug}",
-                                        subject: item.title);
-                                  },
-                                  child:
-                                      SvgPicture.asset("assets/svg/Share.svg"))
-                            ],
+                          IconButton(
+                            onPressed: () {
+                              Share.share(
+                                  "https://platina.uz/${widget.year}/${widget.month}/${widget.day}/${widget.slug}",
+                                  subject: item.title);
+                            },
+                            icon: SvgPicture.asset("assets/svg/Share.svg"),
                           )
                         ],
                       ),
@@ -265,31 +243,13 @@ class _PostRedirectState extends State<PostRedirect> {
                           ),
                           Row(
                             children: [
-                              Row(
-                                children: [
-                                  SvgPicture.asset("assets/svg/Eye.svg"),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    item.numberOfViews.toString(),
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                        color: kLightGreyTextColor),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                width: 14,
-                              ),
-                              InkWell(
-                                  onTap: () {
+                              IconButton(
+                                  onPressed: () {
                                     Share.share(
                                         "https://platina.uz/${widget.year}/${widget.month}/${widget.day}/${widget.slug}",
                                         subject: item.title);
                                   },
-                                  child:
+                                  icon:
                                       SvgPicture.asset("assets/svg/Share.svg"))
                             ],
                           )

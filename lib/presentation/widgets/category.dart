@@ -6,8 +6,10 @@ import 'package:platina/presentation/pages/news_detail.dart';
 import 'package:platina/presentation/widgets/business.dart';
 import 'package:platina/presentation/widgets/currency.dart';
 import 'package:platina/presentation/widgets/footer.dart';
+import 'package:platina/presentation/widgets/shader.dart';
 import 'package:platina/utils/colors.dart';
 import 'package:platina/utils/extantions.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Categories extends StatelessWidget {
   const Categories({super.key});
@@ -31,10 +33,8 @@ class Categories extends StatelessWidget {
                     ),
                     BlocBuilder<PostByCategoryBloc, PostByCategoryState>(
                       builder: (context, state) {
+                        print(state);
                         if (state is PostByCategoryLoaded) {
-                          if (state.post.results.isEmpty) {
-                            return const SizedBox();
-                          }
                           return Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
@@ -77,7 +77,8 @@ class Categories extends StatelessWidget {
                                 ),
                                 ListView.separated(
                                     shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) {
                                       final item = state.post.results[index];
                                       return InkWell(
@@ -147,7 +148,7 @@ class Categories extends StatelessWidget {
                                       );
                                     },
                                     separatorBuilder: (context, index) =>
-                                        Divider(
+                                        const Divider(
                                           height: 15,
                                         ),
                                     itemCount: state.post.results.length),
@@ -172,7 +173,7 @@ class Categories extends StatelessWidget {
                             ),
                           );
                         } else {
-                          return const SizedBox();
+                          return const CircularProgressIndicator();
                         }
                       },
                     ),
@@ -187,12 +188,96 @@ class Categories extends StatelessWidget {
               ),
             );
           } else {
-            return const SingleChildScrollView(
+            return SingleChildScrollView(
               child: Column(
                 children: [
                   Currency(),
                   SizedBox(
                     height: 20,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
+                                  child: SvgPicture.asset(
+                                    "assets/svg/polygon.svg",
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                ShaderContainer(
+                                  height: 15,
+                                  width: size(context).width * 0.2,
+                                )
+                              ],
+                            ),
+                            Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                child: SvgPicture.asset(
+                                    "assets/svg/Arrow_Left_XL.svg"))
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        ListView.separated(
+                          separatorBuilder: (context, index) => const SizedBox(
+                            height: 10,
+                          ),
+                          itemCount: 10,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ShaderContainer(
+                                      height: 15,
+                                      width: size(context).width * 0.4,
+                                    ),
+                                    const SizedBox(height: 5),
+                                    ShaderContainer(
+                                      height: 15,
+                                      width: size(context).width * 0.5,
+                                    ),
+                                    const SizedBox(height: 5),
+                                    ShaderContainer(
+                                      height: 15,
+                                      width: size(context).width * 0.3,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 15,
+                                ),
+                                ShaderContainer(
+                                  height: 86,
+                                  width: size(context).width * 0.33,
+                                ),
+                              ],
+                            );
+                          },
+                        )
+                      ],
+                    ),
                   ),
                   Business(),
                   SizedBox(height: 20),

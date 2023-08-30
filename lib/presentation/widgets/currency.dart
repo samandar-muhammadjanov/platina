@@ -15,47 +15,55 @@ class Currency extends StatefulWidget {
 }
 
 class _CurrencyState extends State<Currency> {
-  bool isWeatherVisible = true;
-  bool isVisiable = false;
+  bool _tile1Expanded = false;
+  bool _tile2Expanded = false;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 16.0, right: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(onTap: () {
-                setState(() {
-                  isVisiable = !isVisiable;
-                  isWeatherVisible = true;
-                });
-              }, child: BlocBuilder<CurrencyBloc, CurrencyState>(
-                builder: (context, state) {
-                  if (state is CurrencyLoaded) {
-                    final currency = state.currency
-                        .firstWhere((element) => element.ccy == "USD");
-                    return item("assets/svg/USD.svg", currency.ccy,
-                        currency.rate, currency.diff);
-                  } else if (state is CurrencyError) {
-                    return const SizedBox();
-                  } else {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: Shimmer.fromColors(
-                        baseColor: Colors.grey[300]!,
-                        highlightColor: Colors.grey[100]!,
-                        child: item("assets/svg/USD.svg", "USD", "00000", "0"),
-                      ),
-                    );
-                  }
-                },
-              )),
-              GestureDetector(
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      _tile1Expanded = !_tile1Expanded;
+                      _tile2Expanded = false;
+                    });
+                  },
+                  child: BlocBuilder<CurrencyBloc, CurrencyState>(
+                    builder: (context, state) {
+                      if (state is CurrencyLoaded) {
+                        final currency = state.currency
+                            .firstWhere((element) => element.ccy == "USD");
+                        return item("assets/svg/USD.svg", currency.ccy,
+                            currency.rate, currency.diff);
+                      } else if (state is CurrencyError) {
+                        return const SizedBox();
+                      } else {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[100]!,
+                            child:
+                                item("assets/svg/USD.svg", "USD", "00000", "0"),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ),
+              Expanded(
+                  child: InkWell(
                 onTap: () {
                   setState(() {
-                    isWeatherVisible = !isWeatherVisible;
+                    _tile2Expanded = !_tile2Expanded;
+                    _tile1Expanded = false;
                   });
                 },
                 child: BlocBuilder<WeatherBloc, WeatherState>(
@@ -69,6 +77,7 @@ class _CurrencyState extends State<Currency> {
                       return Container(
                         padding: const EdgeInsets.all(5),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Image.network(
                                 "https://openweathermap.org/img/wn/${item.weather[0].icon}.png"),
@@ -105,43 +114,14 @@ class _CurrencyState extends State<Currency> {
                     }
                   },
                 ),
-              )
+              ))
             ],
           ),
         ),
-        Visibility(
-          visible: !isWeatherVisible,
-          child: Container(
-            height: 138,
-            width: double.infinity,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: white,
-            ),
-            child: ShaderMask(shaderCallback: (bounds) {
-              return LinearGradient(
-                begin: Alignment.center,
-                end: Alignment.centerRight,
-                colors: [
-                  white,
-                  white.withOpacity(.3),
-                ],
-              ).createShader(bounds);
-            }, child: BlocBuilder<WeatherBloc, WeatherState>(
-              builder: (context, state) {
-                if (state is WeatherError) {
-                  return const SizedBox();
-                } else if (state is WeatherLoaded) {
-                  return buildWeather(state);
-                } else {
-                  return const SizedBox();
-                }
-              },
-            )),
-          ),
-        ),
-        Visibility(
-          visible: isWeatherVisible && isVisiable,
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          height: _tile1Expanded ? 20 : 0,
+          width: double.infinity, // Change color as needed
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: BlocBuilder<CurrencyBloc, CurrencyState>(
@@ -164,6 +144,35 @@ class _CurrencyState extends State<Currency> {
                 }
               },
             ),
+          ),
+        ),
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 400),
+          height: _tile2Expanded ? 138 : 0,
+          width: double.infinity,
+          color: white, // Change color as needed
+          child: Padding(
+            padding: EdgeInsets.all(_tile2Expanded ? 16.0 : 0),
+            child: ShaderMask(shaderCallback: (bounds) {
+              return LinearGradient(
+                begin: Alignment.center,
+                end: Alignment.centerRight,
+                colors: [
+                  white,
+                  white.withOpacity(.3),
+                ],
+              ).createShader(bounds);
+            }, child: BlocBuilder<WeatherBloc, WeatherState>(
+              builder: (context, state) {
+                if (state is WeatherError) {
+                  return const SizedBox();
+                } else if (state is WeatherLoaded) {
+                  return buildWeather(state);
+                } else {
+                  return const SizedBox();
+                }
+              },
+            )),
           ),
         ),
       ],

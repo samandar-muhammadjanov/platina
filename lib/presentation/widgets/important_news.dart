@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -32,7 +33,7 @@ class ImportantNews extends StatelessWidget {
                     width: 8,
                   ),
                   Text(
-                    "Муҳим янгиликлар",
+                    "importantNews".tr(),
                     style: TextStyle(
                       fontSize: 18,
                       color: kprimaryColor,
@@ -233,11 +234,6 @@ class ImportantNews extends StatelessWidget {
                     color: kGreyTextColor,
                     fontWeight: FontWeight.w400,
                   ),
-                ),
-                Text(
-                  "давомини ўқиш",
-                  style:
-                      TextStyle(color: kLinkColor, fontWeight: FontWeight.w400),
                 ),
                 const SizedBox(
                   height: 10,

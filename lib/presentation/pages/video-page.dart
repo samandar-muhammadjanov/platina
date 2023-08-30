@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -59,7 +60,7 @@ class _VideoPageState extends State<VideoPage> {
                                     width: 8,
                                   ),
                                   Text(
-                                    "Видео",
+                                    "video".tr(),
                                     style: TextStyle(
                                       fontSize: 18,
                                       color: kprimaryColor,
@@ -147,7 +148,7 @@ class _VideoPageState extends State<VideoPage> {
                                                       BorderRadius.circular(6),
                                                   color: kbackground),
                                               child: Text(
-                                                "Яна юклаш",
+                                                "loadMore".tr(),
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.w500,
                                                     color: kprimaryColor),

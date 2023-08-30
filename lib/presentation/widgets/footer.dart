@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:platina/utils/colors.dart';
@@ -26,7 +27,7 @@ class Footer extends StatelessWidget {
           Row(
             children: [
               Text(
-                "Сайт ҳақида",
+                "aboutSite".tr(),
                 style: TextStyle(
                     fontWeight: FontWeight.w500, color: kprimaryColor),
               ),
@@ -34,7 +35,7 @@ class Footer extends StatelessWidget {
                 width: 20,
               ),
               Text(
-                "Реклама",
+                "ad".tr(),
                 style: TextStyle(
                     fontWeight: FontWeight.w500, color: kprimaryColor),
               ),
@@ -42,7 +43,7 @@ class Footer extends StatelessWidget {
                 width: 20,
               ),
               Text(
-                "Маҳфийлик сиёсати",
+                "privacyPolicy".tr(),
                 style: TextStyle(
                     fontWeight: FontWeight.w500, color: kprimaryColor),
               ),
@@ -52,7 +53,7 @@ class Footer extends StatelessWidget {
             height: 24,
           ),
           Text(
-            "© 2023 Platina.uz. Барча ҳуқуқлар ҳимояланган. «Platina.uz» сайтида жойланган маълумотлар муаллифнинг шахсий фикри. Сайтда жойланган ҳар қандай материалларни ёзма рухсатсиз фойдаланиш таъқиқланади.",
+            "footer1".tr(),
             style: TextStyle(
               fontSize: 12,
               color: kGreyTextColor,
@@ -62,7 +63,7 @@ class Footer extends StatelessWidget {
             height: 12,
           ),
           Text(
-            "Ўзбекистон Республикаси Президенти Администрацияси ҳузуридаги Ахборот ва оммавий коммуникациялар агентлиги томонидан 02.12.2022 санасида №051412 сонли гувоҳнома билан ОАВ сифатида рўйхатга олинган",
+            "footer2".tr(),
             style: TextStyle(
               fontSize: 12,
               color: kGreyTextColor,
@@ -143,7 +144,7 @@ class Footer extends StatelessWidget {
                 width: 10,
               ),
               Text(
-                "IT-компанияси томонидан ишлаб чиқилди",
+                "redMedia".tr(),
                 style: TextStyle(
                   color: kGreyTextColor,
                 ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -56,7 +57,8 @@ class _SearchResultWidgetState extends State<SearchResultWidget> {
                           fontWeight: FontWeight.w700,
                           color: kprimaryColor),
                     ),
-                    Text("Қидирув натижалари: ${widget.result.count} та"),
+                    Text("searchResults"
+                        .tr(namedArgs: {"result": "${widget.result.count}"})),
                     const SizedBox(
                       height: 16,
                     ),
@@ -86,7 +88,7 @@ class _SearchResultWidgetState extends State<SearchResultWidget> {
                                                   spreadRadius: -6)
                                             ]
                                           : null),
-                                  child: const Text("Янги хабарлар"),
+                                  child: Text("newNews".tr()),
                                 ),
                               ),
                               const SizedBox(
@@ -111,7 +113,7 @@ class _SearchResultWidgetState extends State<SearchResultWidget> {
                                                   spreadRadius: -6)
                                             ]
                                           : null),
-                                  child: const Text("Оммабоп"),
+                                  child: Text("popular".tr()),
                                 ),
                               ),
                             ],
@@ -152,7 +154,7 @@ class _SearchResultWidgetState extends State<SearchResultWidget> {
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
-                          "Сўровингиз бўйича натижалар топилмади.",
+                          "noResults".tr(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: kprimaryColor,

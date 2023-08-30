@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -64,7 +65,7 @@ class _ArticlePageState extends State<ArticlePage> {
                                           width: 8,
                                         ),
                                         Text(
-                                          "Мақолалар",
+                                          "articles".tr(),
                                           style: TextStyle(
                                             fontSize: 18,
                                             color: kprimaryColor,
@@ -145,7 +146,7 @@ class _ArticlePageState extends State<ArticlePage> {
                                                   BorderRadius.circular(6),
                                               color: kbackground),
                                           child: Text(
-                                            "Яна юклаш",
+                                            "loadMore".tr(),
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w500,
                                                 color: kprimaryColor),

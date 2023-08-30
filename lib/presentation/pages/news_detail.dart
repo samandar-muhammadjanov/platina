@@ -6,11 +6,11 @@ import 'package:platina/presentation/pages/home_page.dart';
 import 'package:platina/presentation/pages/lenta_page.dart';
 import 'package:platina/presentation/pages/popular_page.dart';
 import 'package:platina/presentation/widgets/category.dart';
+import 'package:platina/presentation/widgets/drawer.dart';
 import 'package:platina/presentation/widgets/post_redirect.dart';
 import 'package:platina/presentation/pages/video-page.dart';
 import 'package:platina/presentation/widgets/business.dart';
 import 'package:platina/presentation/widgets/currency.dart';
-import 'package:platina/presentation/widgets/drawer.dart';
 import 'package:platina/presentation/widgets/footer.dart';
 import 'package:platina/presentation/widgets/search.dart';
 import 'package:platina/presentation/widgets/search_result.dart';
@@ -70,7 +70,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
   bool isMenuClicked = false;
   int currentIndex = 0;
   bool isIconsClicked = false;
-
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     List pages = [
@@ -89,7 +89,11 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
         ),
         leading: GestureDetector(
             onTap: () {
-              _toggleDrawer();
+              if (scaffoldKey.currentState!.isDrawerOpen) {
+                Navigator.pop(context);
+              } else {
+                scaffoldKey.currentState!.openDrawer();
+              }
             },
             child: SvgPicture.asset("assets/svg/menu.svg")),
         actions: [
@@ -100,136 +104,132 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
               child: SvgPicture.asset("assets/svg/search.svg")),
         ],
       ),
-      body: isIconsClicked
-          ? Stack(
-              children: [
-                pages[currentIndex],
-                AppDrawer(
-                    isDrawerOpen: _isDrawerOpen,
-                    toogleDrawer: _toggleDrawer,
-                    menu: _updateMenu),
-                AppSearch(
-                  isSearch: _isSearchOpen,
-                  toogleSearch: _toogleSearch,
-                  searchResult: _showSearchResult,
-                )
-              ],
-            )
-          : Stack(
-              children: [
-                if (!isSearchResultClicked) ...{
-                  if (!isMenuClicked)
-                    SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: Column(
-                        children: [
-                          const Currency(),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          PostRedirect(
-                            year: widget.year,
-                            month: widget.month,
-                            day: widget.day,
-                            slug: widget.slug,
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const Business(),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const Footer()
-                        ],
+      body: Scaffold(
+        bottomNavigationBar: _isDrawerOpen || _isSearchOpen
+            ? null
+            : SizedBox(
+                height: 60,
+                child: BottomNavigationBar(
+                  currentIndex: currentIndex,
+                  onTap: (index) {
+                    setState(() {
+                      currentIndex = index;
+                      isIconsClicked = true;
+                    });
+                  },
+                  selectedItemColor: kprimaryColor,
+                  unselectedItemColor: kGreyTextColor,
+                  selectedLabelStyle: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
+                  ),
+                  unselectedLabelStyle: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
+                  ),
+                  type: BottomNavigationBarType.fixed,
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset("assets/svg/home.svg"),
+                      activeIcon: SvgPicture.asset(
+                        "assets/svg/home.svg",
+                        color: kprimaryColor,
                       ),
-                    )
-                  else
-                    const Categories()
-                } else ...{
-                  SearchResultWidget(
-                    query: query,
-                    result: result!,
+                      label: "Асосий",
+                    ),
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset("assets/svg/News.svg"),
+                      activeIcon: SvgPicture.asset(
+                        "assets/svg/News.svg",
+                        color: kprimaryColor,
+                      ),
+                      label: "Лента",
+                    ),
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset("assets/svg/Trending_Up.svg"),
+                      activeIcon: SvgPicture.asset(
+                        "assets/svg/Trending_Up.svg",
+                        color: kprimaryColor,
+                      ),
+                      label: "Оммабоп",
+                    ),
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset("assets/svg/File_Document.svg"),
+                      activeIcon: SvgPicture.asset(
+                        "assets/svg/File_Document.svg",
+                        color: kprimaryColor,
+                      ),
+                      label: "Мақола",
+                    ),
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset("assets/svg/Play_Circle.svg"),
+                      activeIcon: SvgPicture.asset(
+                        "assets/svg/Play_Circle.svg",
+                        color: kprimaryColor,
+                      ),
+                      label: "Видео",
+                    ),
+                  ],
+                ),
+              ),
+        key: scaffoldKey,
+        drawer: AppDrawer(showCategory: _updateMenu),
+        body: isIconsClicked
+            ? Stack(
+                children: [
+                  pages[currentIndex],
+                  AppSearch(
+                    isSearch: _isSearchOpen,
+                    toogleSearch: _toogleSearch,
+                    searchResult: _showSearchResult,
                   )
-                },
-                AppDrawer(
-                    isDrawerOpen: _isDrawerOpen,
-                    toogleDrawer: _toggleDrawer,
-                    menu: _updateMenu),
-                AppSearch(
-                  isSearch: _isSearchOpen,
-                  toogleSearch: _toogleSearch,
-                  searchResult: _showSearchResult,
-                )
-              ],
-            ),
-      bottomNavigationBar: _isDrawerOpen || _isSearchOpen
-          ? null
-          : SizedBox(
-              height: 60,
-              child: BottomNavigationBar(
-                currentIndex: currentIndex,
-                onTap: (index) {
-                  setState(() {
-                    currentIndex = index;
-                    isIconsClicked = true;
-                  });
-                },
-                selectedItemColor: kprimaryColor,
-                unselectedItemColor: kGreyTextColor,
-                selectedLabelStyle: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12,
-                ),
-                unselectedLabelStyle: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12,
-                ),
-                type: BottomNavigationBarType.fixed,
-                items: [
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset("assets/svg/home.svg"),
-                    activeIcon: SvgPicture.asset(
-                      "assets/svg/home.svg",
-                      color: kprimaryColor,
-                    ),
-                    label: "Асосий",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset("assets/svg/News.svg"),
-                    activeIcon: SvgPicture.asset(
-                      "assets/svg/News.svg",
-                      color: kprimaryColor,
-                    ),
-                    label: "Лента",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset("assets/svg/Trending_Up.svg"),
-                    activeIcon: SvgPicture.asset(
-                      "assets/svg/Trending_Up.svg",
-                      color: kprimaryColor,
-                    ),
-                    label: "Оммабоп",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset("assets/svg/File_Document.svg"),
-                    activeIcon: SvgPicture.asset(
-                      "assets/svg/File_Document.svg",
-                      color: kprimaryColor,
-                    ),
-                    label: "Мақола",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset("assets/svg/Play_Circle.svg"),
-                    activeIcon: SvgPicture.asset(
-                      "assets/svg/Play_Circle.svg",
-                      color: kprimaryColor,
-                    ),
-                    label: "Видео",
-                  ),
+                ],
+              )
+            : Stack(
+                children: [
+                  if (!isSearchResultClicked) ...{
+                    if (!isMenuClicked)
+                      SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: Column(
+                          children: [
+                            const Currency(),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            PostRedirect(
+                              year: widget.year,
+                              month: widget.month,
+                              day: widget.day,
+                              slug: widget.slug,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            const Business(),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            const Footer()
+                          ],
+                        ),
+                      )
+                    else
+                      const Categories()
+                  } else ...{
+                    SearchResultWidget(
+                      query: query,
+                      result: result!,
+                    )
+                  },
+                  AppSearch(
+                    isSearch: _isSearchOpen,
+                    toogleSearch: _toogleSearch,
+                    searchResult: _showSearchResult,
+                  )
                 ],
               ),
-            ),
+      ),
     );
   }
 }

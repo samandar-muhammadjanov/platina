@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -39,9 +40,9 @@ class Subject extends StatelessWidget {
                             const SizedBox(
                               width: 8,
                             ),
-                            const Text(
-                              "Мавзуга оид",
-                              style: TextStyle(
+                            Text(
+                              "subjects".tr(),
+                              style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
                               ),
