@@ -6,6 +6,7 @@ import 'package:platina/presentation/widgets/shader.dart';
 import 'package:platina/presentation/widgets/social_media.dart';
 import 'package:platina/utils/colors.dart';
 import 'package:platina/utils/extantions.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key, required this.showCategory});
@@ -30,11 +31,29 @@ class AppDrawer extends StatelessWidget {
               ),
               Row(
                 children: [
-                  socialMedias("assets/svg/telegram.svg", "platinauzb"),
+                  InkWell(
+                      onTap: () async {
+                        if (!await launchUrl(
+                            Uri.parse("https://t.me/platinauzb"),
+                            mode: LaunchMode.externalApplication)) {
+                          throw Exception('Could not launch');
+                        }
+                      },
+                      child: socialMedias(
+                          "assets/svg/telegram.svg", "platinauzb")),
                   const SizedBox(
                     width: 10,
                   ),
-                  socialMedias("assets/svg/instagram.svg", "platinauzb"),
+                  InkWell(
+                      onTap: () async {
+                        if (!await launchUrl(
+                            Uri.parse("https://www.instagram.com/platinauzb/"),
+                            mode: LaunchMode.externalApplication)) {
+                          throw Exception('Could not launch');
+                        }
+                      },
+                      child: socialMedias(
+                          "assets/svg/instagram.svg", "platinauzb")),
                 ],
               ),
               const SizedBox(
@@ -42,11 +61,30 @@ class AppDrawer extends StatelessWidget {
               ),
               Row(
                 children: [
-                  socialMedias("assets/svg/facebook.svg", "platinauz"),
+                  InkWell(
+                      onTap: () async {
+                        if (!await launchUrl(
+                            Uri.parse("https://facebook.com/platinauz"),
+                            mode: LaunchMode.externalApplication)) {
+                          throw Exception('Could not launch');
+                        }
+                      },
+                      child:
+                          socialMedias("assets/svg/facebook.svg", "platinauz")),
                   const SizedBox(
                     width: 10,
                   ),
-                  socialMedias("assets/svg/youtube.svg", "platinauz"),
+                  InkWell(
+                      onTap: () async {
+                        if (!await launchUrl(
+                            Uri.parse(
+                                "https://www.youtube.com/channel/UCwUFCV_nMacMGj_-yD6_Mow"),
+                            mode: LaunchMode.externalApplication)) {
+                          throw Exception('Could not launch');
+                        }
+                      },
+                      child:
+                          socialMedias("assets/svg/youtube.svg", "platinauz")),
                 ],
               ),
               const SizedBox(
@@ -54,11 +92,19 @@ class AppDrawer extends StatelessWidget {
               ),
               Row(
                 children: [
-                  socialMedias("assets/svg/twitter.svg", "platinauz"),
+                  InkWell(
+                      onTap: () async {
+                        if (!await launchUrl(
+                            Uri.parse("https://twitter.com/platinauz"),
+                            mode: LaunchMode.externalApplication)) {
+                          throw Exception('Could not launch');
+                        }
+                      },
+                      child:
+                          socialMedias("assets/svg/twitter.svg", "platinauz")),
                   const SizedBox(
                     width: 10,
                   ),
-                  socialMedias("assets/svg/tiktok.svg", "platinauz"),
                 ],
               ),
             ],

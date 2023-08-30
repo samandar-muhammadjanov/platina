@@ -77,8 +77,8 @@ class Footer extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () async {
-                      if (!await launchUrl(
-                          Uri.parse("https://t.me/platinauzb"))) {
+                      if (!await launchUrl(Uri.parse("https://t.me/platinauzb"),
+                          mode: LaunchMode.externalApplication)) {
                         throw Exception('Could not launch');
                       }
                     },
@@ -89,35 +89,66 @@ class Footer extends StatelessWidget {
                       child: SvgPicture.asset("assets/svg/telegram.svg"),
                     ),
                   ),
-                  Container(
-                    height: 35,
-                    width: 35,
-                    alignment: Alignment.center,
-                    child: SvgPicture.asset("assets/svg/instagram.svg"),
+                  InkWell(
+                    onTap: () async {
+                      if (!await launchUrl(
+                          Uri.parse("https://www.instagram.com/platinauzb/"),
+                          mode: LaunchMode.externalApplication)) {
+                        throw Exception('Could not launch');
+                      }
+                    },
+                    child: Container(
+                      height: 35,
+                      width: 35,
+                      alignment: Alignment.center,
+                      child: SvgPicture.asset("assets/svg/instagram.svg"),
+                    ),
                   ),
-                  Container(
-                    height: 35,
-                    width: 35,
-                    alignment: Alignment.center,
-                    child: SvgPicture.asset("assets/svg/facebook.svg"),
+                  InkWell(
+                    onTap: () async {
+                      if (!await launchUrl(
+                          Uri.parse("https://facebook.com/platinauz"),
+                          mode: LaunchMode.externalApplication)) {
+                        throw Exception('Could not launch');
+                      }
+                    },
+                    child: Container(
+                      height: 35,
+                      width: 35,
+                      alignment: Alignment.center,
+                      child: SvgPicture.asset("assets/svg/facebook.svg"),
+                    ),
                   ),
-                  Container(
-                    height: 35,
-                    width: 35,
-                    alignment: Alignment.center,
-                    child: SvgPicture.asset("assets/svg/youtube.svg"),
+                  InkWell(
+                    onTap: () async {
+                      if (!await launchUrl(
+                          Uri.parse(
+                              "https://www.youtube.com/channel/UCwUFCV_nMacMGj_-yD6_Mow"),
+                          mode: LaunchMode.externalApplication)) {
+                        throw Exception('Could not launch');
+                      }
+                    },
+                    child: Container(
+                      height: 35,
+                      width: 35,
+                      alignment: Alignment.center,
+                      child: SvgPicture.asset("assets/svg/youtube.svg"),
+                    ),
                   ),
-                  Container(
-                    height: 35,
-                    width: 35,
-                    alignment: Alignment.center,
-                    child: SvgPicture.asset("assets/svg/twitter.svg"),
-                  ),
-                  Container(
-                    height: 35,
-                    width: 35,
-                    alignment: Alignment.center,
-                    child: SvgPicture.asset("assets/svg/tiktok.svg"),
+                  InkWell(
+                    onTap: () async {
+                      if (!await launchUrl(
+                          Uri.parse("https://twitter.com/platinauz"),
+                          mode: LaunchMode.externalApplication)) {
+                        throw Exception('Could not launch');
+                      }
+                    },
+                    child: Container(
+                      height: 35,
+                      width: 35,
+                      alignment: Alignment.center,
+                      child: SvgPicture.asset("assets/svg/twitter.svg"),
+                    ),
                   ),
                 ],
               ),
